@@ -1,0 +1,24 @@
+{
+  "name": "harukaze-api",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel",
+    "test": "vitest run",
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "check": "biome check --write"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.4",
+    "@t3-oss/env-core": "^0.13.4",
+    "hono": "^4.7.10",
+    "zod": "^3.25.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.15.19",
+    "vercel": "^32.4.1"
+  },
+  "packageManager": "pnpm@8.15.4+sha1.c85a4305534f76d461407b59277b954bac97b5c4"
+}
