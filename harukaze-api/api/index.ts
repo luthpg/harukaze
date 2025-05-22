@@ -1,4 +1,4 @@
-import { getSupabase, supabaseMiddleware } from '@/middleware/auth.middleware';
+import { getSupabase, supabaseMiddleware } from './middleware/auth.middleware';
 import { Hono } from 'hono';
 import { handle } from 'hono/vercel';
 

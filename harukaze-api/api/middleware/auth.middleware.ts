@@ -1,4 +1,4 @@
-import { env as runtimeEnv } from '@/utils/env';
+import { env as runtimeEnv } from '../utils/env';
 import { createServerClient, parseCookieHeader } from '@supabase/ssr';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Context, MiddlewareHandler } from 'hono';
@@ -38,12 +38,20 @@ export const supabaseMiddleware = (): MiddlewareHandler => {
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
-          return parseCookieHeader(c.req.header('Cookie') ?? '');
+          const cookieHeaders = parseCookieHeader(c.req.header('Cookie') ?? '');
+          return cookieHeaders.map((cookieHeader) => ({
+            ...cookieHeader,
+            value: cookieHeader.value ?? '',
+          }));
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            setCookie(c, name, value, options),
-          );
+          for (const { name, value, options } of cookiesToSet) {
+            setCookie(c, name, value, {
+              ...options,
+              sameSite: 'Strict',
+              priority: options.priority === 'high' ? 'High' : options.priority === 'medium' ? 'Medium' : 'Low',
+            });
+          }
         },
       },
     });
